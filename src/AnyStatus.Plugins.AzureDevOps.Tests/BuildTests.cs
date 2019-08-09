@@ -19,7 +19,7 @@ namespace AnyStatus.Plugins.AzureDevOps.Tests
                 ConnectionSettings = new AzureDevOpsConnectionSettings
                 {
                     Organization = "production",
-                    PersonalAccessToken = "mge4tex7jlpf3xtwg4lppmju5l2eenwebdv4m22mkmiotkdtx2za"
+                    PersonalAccessToken = ""
                 }
             };
 
