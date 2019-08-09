@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace AnyStatus.Plugins.AzureDevOps.Tests
 {
-    [TestClass]
+    //[TestClass]
     public class BuildTests
     {
-        [TestMethod]
+        //[TestMethod]
         public async Task BuildHealthCheckTest()
         {
             var widget = new BuildWidget
