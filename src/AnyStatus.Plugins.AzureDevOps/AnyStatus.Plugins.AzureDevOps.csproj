@@ -91,6 +91,7 @@
     <Compile Include="WorkItems\WorkItemWidget.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AnyStatus.AzureDevOps.Plugins.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
