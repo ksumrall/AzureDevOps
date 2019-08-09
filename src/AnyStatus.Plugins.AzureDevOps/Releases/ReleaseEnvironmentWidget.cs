@@ -9,7 +9,7 @@ namespace AnyStatus.Plugins.AzureDevOps.Releases
     [Browsable(false)]
     [DisplayColumn("Azure DevOps")]
     [DisplayName("Release Environment")]
-    [XmlType(TypeName = "AzureDevOpsReleaseEnvironment_v1")]
+    [XmlType(TypeName = "AzureDevOpsReleaseEnvironment_v2")]
     [Description("Get release environment from Azure DevOps.")]
     public class ReleaseEnvironmentWidget : Widget, IWebPage, IStartable, IStoppable, IHealthCheck, ISchedulable, IJobHistory
     {

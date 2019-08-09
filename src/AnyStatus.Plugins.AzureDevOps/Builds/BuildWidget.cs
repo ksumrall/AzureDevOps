@@ -8,7 +8,7 @@ namespace AnyStatus.Plugins.AzureDevOps.Builds
 {
     [DisplayName("Build")]
     [DisplayColumn("Azure DevOps")]
-    [XmlType(TypeName = "AzureDevOpsBuild_v1")]
+    [XmlType(TypeName = "AzureDevOpsBuild_v2")]
     [Description("Get build from Azure DevOps.")]
     public class BuildWidget : Widget,
         IHealthCheck, ISchedulable, IWebPage, IInitializable,

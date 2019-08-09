@@ -7,7 +7,7 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems
 {
     [DisplayName("Work Items")]
     [DisplayColumn("Azure DevOps")]
-    [XmlType(TypeName = "AzureDevOpsWorkItems_v1")]
+    [XmlType(TypeName = "AzureDevOpsWorkItems_v2")]
     [Description("Get work items from Azure DevOps.")]
     public class WorkItemsWidget : Metric, ISchedulable
     {

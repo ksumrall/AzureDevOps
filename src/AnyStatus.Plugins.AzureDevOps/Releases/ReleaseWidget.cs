@@ -8,7 +8,7 @@ namespace AnyStatus.Plugins.AzureDevOps.Releases
 {
     [DisplayName("Release")]
     [DisplayColumn("Azure DevOps")]
-    [XmlType(TypeName = "AzureDevOpsRelease_v1")]
+    [XmlType(TypeName = "AzureDevOpsRelease_v2")]
     [Description("Get release from Azure DevOps.")]
     public class ReleaseWidget : Widget, IHealthCheck, ISchedulable, IWebPage, IInitializable, IStartable, IJobHistory
     {

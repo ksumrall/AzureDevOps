@@ -50,18 +50,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureDevOpsApi.cs" />
-    <Compile Include="IdentityRef.cs" />
+    <Compile Include="API\AzureDevOpsApi.cs" />
+    <Compile Include="Common\IdentityRef.cs" />
     <Compile Include="Builds\Build.cs" />
     <Compile Include="Builds\BuildDefinition.cs" />
     <Compile Include="Builds\BuildHealthCheck.cs" />
     <Compile Include="Builds\BuildWidget.cs" />
     <Compile Include="Builds\InitializeBuild.cs" />
     <Compile Include="Builds\BuildWebPage.cs" />
-    <Compile Include="AzureDevOpsConnectionSettings.cs" />
+    <Compile Include="API\AzureDevOpsConnectionSettings.cs" />
     <Compile Include="Builds\StopBuild.cs" />
     <Compile Include="Builds\StartBuild.cs" />
-    <Compile Include="CollectionResponse.cs" />
+    <Compile Include="Common\CollectionResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Releases\Approval.cs" />
     <Compile Include="Releases\Deployment.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="WorkItems\WorkItemWidget.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AnyStatus.AzureDevOps.Plugins.nuspec" />
+    <None Include="AnyStatus.Plugins.AzureDevOps.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
