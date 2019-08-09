@@ -17,7 +17,7 @@ nuget:
   
 before_build:
 - cmd: nuget restore src
-- ps: $file = "$env:appveyor_build_folder\src\AnyStatus.AzureDevOps.Plugins\AnyStatus.AzureDevOps.Plugins.nuspec"
+- ps: $file = "$env:appveyor_build_folder\src\AnyStatus.Plugins.AzureDevOps\AnyStatus.Plugins.AzureDevOps.nuspec"
 - ps: $xml = [xml](Get-Content $file)
 - ps: $xml.package.metadata.version = $env:APPVEYOR_BUILD_VERSION
 - ps: $xml.Save($file)

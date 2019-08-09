@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
-    <id>AnyStatus.AzureDevOps.Plugins</id>
+    <id>AnyStatus.Plugins.AzureDevOps</id>
     <version>1.0.0</version>
     <authors>AnyStatus</authors>
     <owners>anystatus</owners>
