@@ -1,0 +1,3 @@
+﻿1. Start/Stop release environment.
+2. Stop release.
+3. Open release environment web page.
