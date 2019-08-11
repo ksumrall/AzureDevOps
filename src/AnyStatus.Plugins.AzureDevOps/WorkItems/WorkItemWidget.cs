@@ -8,7 +8,7 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems
     [Browsable(false)]
     [DisplayName("Work Item")]
     [DisplayColumn("Azure DevOps")]
-    [XmlType(TypeName = "AzureDevOpsWorkItem_v2")]
+    [XmlType(TypeName = "AzureDevOpsWorkItem_v1")]
     [Description("Azure DevOps work item.")]
     public class WorkItemWidget : Widget, IWebPage
     {
