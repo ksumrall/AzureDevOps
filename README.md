@@ -1,10 +1,21 @@
+> This page is a work in progress. You're welcome to suggest or post changes.
+
 # Introduction 
 
 The Azure DevOps plugins for AnyStatus includes widgets for 
 
-- Builds
-- Releases
-- Work Items
+### Builds
+
+Using the Azure DevOps Build Widget you can view the status of the last build. The widget also shows a chart of the last 10 builds.
+When the build runs, the estimated remaining time is calculated based on the last successful builds and a progress bar is shown.
+The widget enables starting and stopping builds remotely using the default build configuration.
+
+### Releases
+
+- Release Environments
+  
+### Work Items
+
 - Work Item Queries
 
 # Getting Started
