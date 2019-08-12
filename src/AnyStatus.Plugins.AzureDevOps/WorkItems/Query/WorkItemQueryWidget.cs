@@ -14,7 +14,6 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
         public WorkItemQueryWidget()
         {
             ShowNotifications = false;
-            ShowErrorNotifications = false;
         }
 
         [Required]
