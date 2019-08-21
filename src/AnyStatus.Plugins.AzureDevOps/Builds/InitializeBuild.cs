@@ -1,11 +1,9 @@
 ﻿using AnyStatus.API;
-using RestSharp;
-using RestSharp.Authenticators;
+using AnyStatus.Plugins.AzureDevOps.API;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AnyStatus.Plugins.AzureDevOps.Common;
 
 namespace AnyStatus.Plugins.AzureDevOps.Builds
 {
@@ -13,28 +11,15 @@ namespace AnyStatus.Plugins.AzureDevOps.Builds
     {
         public async Task Handle(InitializeRequest<BuildWidget> request, CancellationToken cancellationToken)
         {
-            var restClient = new RestClient(request.DataContext.ConnectionSettings.URL)
-            {
-                Authenticator = new HttpBasicAuthenticator("", request.DataContext.ConnectionSettings.PersonalAccessToken)
-            };
+            var api = new AzureDevOpsApi(request.DataContext.ConnectionSettings);
 
-            var buildDefinitionsRequest = new RestRequest($"{request.DataContext.ConnectionSettings.Organization}/{request.DataContext.Project}/_apis/build/definitions");
+            var response = await api.GetBuildDefinitionsAsync(request.DataContext.Project, request.DataContext.Definition, 1, cancellationToken);
 
-            buildDefinitionsRequest.AddParameter("$top", 1);
-            buildDefinitionsRequest.AddParameter("name", request.DataContext.Definition);
-
-            var buildDefinitionsResponse = await restClient.ExecuteTaskAsync<CollectionResponse<BuildDefinition>>(buildDefinitionsRequest, cancellationToken).ConfigureAwait(false);
-
-            if (buildDefinitionsResponse.ErrorException != null)
-            {
-                throw new Exception("An error occurred while getting build definition from Azure DevOps.", buildDefinitionsResponse.ErrorException);
-            }
-
-            var buildDefinition = buildDefinitionsResponse.Data.Value?.FirstOrDefault();
+            var buildDefinition = response.Value.FirstOrDefault();
 
             if (buildDefinition == null)
             {
-                throw new Exception("The build definition was not found.");
+                throw new Exception($"Build definition \"{request.DataContext.Definition}\" was not found.");
             }
 
             request.DataContext.DefinitionId = buildDefinition.Id;

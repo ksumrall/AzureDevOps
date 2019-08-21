@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AnyStatus.Plugins.AzureDevOps.Builds;
+﻿using AnyStatus.Plugins.AzureDevOps.Builds;
 using AnyStatus.Plugins.AzureDevOps.Common;
 using AnyStatus.Plugins.AzureDevOps.Releases;
 using RestSharp;
 using RestSharp.Authenticators;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AnyStatus.Plugins.AzureDevOps.API
 {
@@ -27,7 +27,7 @@ namespace AnyStatus.Plugins.AzureDevOps.API
         private async Task<T> ExecuteAsync<T>(IRestRequest request, CancellationToken cancellationToken) where T : new()
         {
             var response = await _client.ExecuteTaskAsync<T>(request, cancellationToken).ConfigureAwait(false);
-
+            
             if (response.ErrorException == null)
                 return response.Data;
 
@@ -51,10 +51,20 @@ namespace AnyStatus.Plugins.AzureDevOps.API
         {
             var request = new RestRequest($"{project}/_apis/build/builds?api-version=5.0");
 
-            request.AddParameter("definitions", definitionId);
             request.AddParameter("$top", top);
+            request.AddParameter("definitions", definitionId);
 
             return await ExecuteAsync<CollectionResponse<Build>>(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        internal async Task<CollectionResponse<BuildDefinition>> GetBuildDefinitionsAsync(string project, string name, int top, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{project}/_apis/build/definitions?api-version=5.0");
+
+            request.AddParameter("$top", top);
+            request.AddParameter("name", name);
+
+            return await ExecuteAsync<CollectionResponse<BuildDefinition>>(request, cancellationToken).ConfigureAwait(false);
         }
 
         internal async Task<CollectionResponse<Deployment>> GetDeploymentsAsync(string project, int definitionId, int top, CancellationToken cancellationToken)

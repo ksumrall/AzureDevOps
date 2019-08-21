@@ -1,10 +1,10 @@
 ﻿using AnyStatus.API;
+using AnyStatus.Plugins.AzureDevOps.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AnyStatus.Plugins.AzureDevOps.API;
 
 namespace AnyStatus.Plugins.AzureDevOps.Builds
 {
