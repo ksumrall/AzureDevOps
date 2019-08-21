@@ -47,6 +47,7 @@ namespace AnyStatus.Plugins.AzureDevOps.API
 
             throw new Exception(message, response.ErrorException);
         }
+        
         //Builds
 
         internal async Task<CollectionResponse<Build>> GetBuildsAsync(string project, int definitionId, int top, CancellationToken cancellationToken)
@@ -111,6 +112,18 @@ namespace AnyStatus.Plugins.AzureDevOps.API
             var request = new RestRequest($"{project}/_apis/release/deployments");
 
             request.AddParameter("definitionId", definitionId);
+            request.AddParameter("$top", top);
+            request.AddParameter("api-version", "5.0");
+
+            return await ExecuteAsync<CollectionResponse<Deployment>>(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        internal async Task<CollectionResponse<Deployment>> GetDeploymentsAsync(string project, int definitionId, int definitionEnvironmentId, int top, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{project}/_apis/release/deployments");
+
+            request.AddParameter("definitionId", definitionId);
+            request.AddParameter("definitionEnvironmentId", definitionEnvironmentId);
             request.AddParameter("$top", top);
             request.AddParameter("api-version", "5.0");
 

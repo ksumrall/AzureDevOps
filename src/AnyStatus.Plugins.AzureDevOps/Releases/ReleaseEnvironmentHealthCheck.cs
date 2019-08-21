@@ -1,10 +1,8 @@
 ﻿using AnyStatus.API;
-using RestSharp;
-using RestSharp.Authenticators;
+using AnyStatus.Plugins.AzureDevOps.API;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AnyStatus.Plugins.AzureDevOps.Common;
 
 namespace AnyStatus.Plugins.AzureDevOps.Releases
 {
@@ -14,34 +12,19 @@ namespace AnyStatus.Plugins.AzureDevOps.Releases
         {
             var widget = request.DataContext;
 
-            if (!(widget.Parent is ReleaseWidget parent) || parent.DefinitionId == 0)
+            if (widget.Parent is ReleaseWidget parent && parent.DefinitionId != 0)
             {
-                return;
-            }
+                var api = new AzureDevOpsApi(parent.ConnectionSettings);
 
-            var restClient = new RestClient(parent.ConnectionSettings.URL)
-            {
-                Authenticator = new HttpBasicAuthenticator("", parent.ConnectionSettings.PersonalAccessToken)
-            };
+                var response = await api.GetDeploymentsAsync(parent.Project, parent.DefinitionId, widget.DefinitionEnvironmentId, 10, cancellationToken).ConfigureAwait(false);
 
-            var deploymentsRequest = new RestRequest($"{parent.ConnectionSettings.Organization}/{parent.Project}/_apis/release/deployments");
-            
-            deploymentsRequest.AddParameter("definitionId", parent.DefinitionId);
-            deploymentsRequest.AddParameter("definitionEnvironmentId", widget.DefinitionEnvironmentId);
-            deploymentsRequest.AddParameter("$top", 10);
-            deploymentsRequest.AddParameter("api-version", "5.0");
-
-            var deploymentsResponse = await restClient.ExecuteTaskAsync<CollectionResponse<Deployment>>(deploymentsRequest, cancellationToken).ConfigureAwait(false);
-
-            if (deploymentsResponse.IsSuccessful && deploymentsResponse.Data.Value.Any())
-            {
-                var deployments = deploymentsResponse.Data.Value.ToList();
+                var deployments = response.Value.ToList();
 
                 if (deployments.Any())
                 {
                     deployments.Reverse();
 
-                    var maxDuration = deployments.Max(b => b.Duration);
+                    var maxDuration = deployments.Max(deployment => deployment.Duration);
 
                     deployments.ForEach(deployment => deployment.Percentage = (double)deployment.Duration.Ticks / maxDuration.Ticks);
                 }

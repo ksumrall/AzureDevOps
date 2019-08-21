@@ -36,8 +36,7 @@ namespace AnyStatus.Plugins.AzureDevOps.Releases
 
             UpdateInfo(widget, release);
 
-            _uiAction.Invoke(() =>
-                UpdateEnvironments(widget, release));
+            _uiAction.Invoke(() => UpdateEnvironments(widget, release));
 
             var deployments = await api.GetDeploymentsAsync(widget.Project, widget.DefinitionId, 10, cancellationToken).ConfigureAwait(false);
 
