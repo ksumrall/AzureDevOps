@@ -8,7 +8,7 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 {
     [DisplayColumn("Azure DevOps")]
     [DisplayName("Work Items Query")]
-    [XmlType(TypeName = "AzureDevOpsWorkItemQuery_v2")]
+    [XmlType(TypeName = "AzureDevOpsWorkItemQuery_v1")]
     [Description("List bugs, user stories, or other work items.")]
     public class WorkItemQueryWidget : Metric, ISchedulable, IInitializable, IWebPage
     {
