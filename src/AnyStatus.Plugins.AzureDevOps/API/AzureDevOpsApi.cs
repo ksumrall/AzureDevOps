@@ -31,9 +31,7 @@ namespace AnyStatus.Plugins.AzureDevOps.API
             if (response.ErrorException == null)
                 return response.Data;
 
-            const string message = "An error occurred while requesting data from Azure DevOps.";
-
-            throw new Exception(message, response.ErrorException);
+            throw new Exception("An error occurred while requesting data from Azure DevOps.", response.ErrorException);
         }
 
         private async Task ExecuteAsync(IRestRequest request, CancellationToken cancellationToken)
@@ -43,9 +41,7 @@ namespace AnyStatus.Plugins.AzureDevOps.API
             if (response.IsSuccessful)
                 return;
 
-            const string message = "An error occurred while sending request to Azure DevOps.";
-
-            throw new Exception(message, response.ErrorException);
+            throw new Exception("An error occurred while sending request to Azure DevOps.", response.ErrorException);
         }
         
         //Builds
@@ -128,6 +124,18 @@ namespace AnyStatus.Plugins.AzureDevOps.API
             request.AddParameter("api-version", "5.0");
 
             return await ExecuteAsync<CollectionResponse<Deployment>>(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        internal async Task CreateReleaseAsync(string project, int definitionId, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{project}/_apis/release/releases?api-version=5.0", Method.POST);
+
+            request.AddJsonBody(new
+            {
+                definitionId
+            });
+
+            await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
         }
     }
 }

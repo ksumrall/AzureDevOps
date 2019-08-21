@@ -1,7 +1,5 @@
 ﻿using AnyStatus.API;
-using RestSharp;
-using RestSharp.Authenticators;
-using System;
+using AnyStatus.Plugins.AzureDevOps.API;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,29 +16,16 @@ namespace AnyStatus.Plugins.AzureDevOps.Releases
 
         public async Task Handle(StartRequest<ReleaseWidget> request, CancellationToken cancellationToken)
         {
-            if (_dialogService.ShowDialog(new ConfirmationDialog($"Are you sure you want to stop {request.DataContext.Name}?")) != DialogResult.Yes)
+            var dialog = new ConfirmationDialog($"Are you sure you want to create a new release of {request.DataContext.Name}?");
+
+            if (_dialogService.ShowDialog(dialog) != DialogResult.Yes)
             {
                 return;
             }
 
-            var restClient = new RestClient(request.DataContext.ConnectionSettings.URL)
-            {
-                Authenticator = new HttpBasicAuthenticator("", request.DataContext.ConnectionSettings.PersonalAccessToken)
-            };
+            var api = new AzureDevOpsApi(request.DataContext.ConnectionSettings);
 
-            var startRequest = new RestRequest($"{request.DataContext.ConnectionSettings.Organization}/{request.DataContext.Project}/_apis/release/releases?api-version=5.0", Method.POST);
-
-            startRequest.AddJsonBody(new
-            {
-                definitionId = request.DataContext.DefinitionId
-            });
-
-            var response = await restClient.ExecuteTaskAsync(startRequest, cancellationToken).ConfigureAwait(false);
-
-            if (!response.IsSuccessful)
-            {
-                throw new Exception("An error occurred while starting release.\n" + response.Content);
-            }
+            await api.CreateReleaseAsync(request.DataContext.Project, request.DataContext.DefinitionId, cancellationToken).ConfigureAwait(false);
         }
     }
 }
