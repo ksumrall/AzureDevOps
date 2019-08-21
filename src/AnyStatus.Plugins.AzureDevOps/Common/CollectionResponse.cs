@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AnyStatus.Plugins.AzureDevOps
+namespace AnyStatus.Plugins.AzureDevOps.Common
 {
     public class CollectionResponse<T>
     {

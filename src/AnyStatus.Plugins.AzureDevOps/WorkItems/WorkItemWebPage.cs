@@ -1,6 +1,6 @@
 ﻿using AnyStatus.API;
 
-namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
+namespace AnyStatus.Plugins.AzureDevOps.WorkItems
 {
 
     public class WorkItemWebPage : OpenWebPage<WorkItemWidget>

@@ -1,12 +1,13 @@
-﻿using AnyStatus.Plugins.AzureDevOps.Builds;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using AnyStatus.Plugins.AzureDevOps.Builds;
+using AnyStatus.Plugins.AzureDevOps.Common;
 using AnyStatus.Plugins.AzureDevOps.Releases;
 using RestSharp;
 using RestSharp.Authenticators;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace AnyStatus.Plugins.AzureDevOps
+namespace AnyStatus.Plugins.AzureDevOps.API
 {
     internal class AzureDevOpsApi
     {
@@ -33,16 +34,6 @@ namespace AnyStatus.Plugins.AzureDevOps
             const string message = "An error occurred while requesting data from Azure DevOps.";
 
             throw new Exception(message, response.ErrorException);
-
-            //if (lastReleaseResponse.ErrorException != null)
-            //{
-            //    throw new Exception("An error occurred while getting release from Azure DevOps.", lastReleaseResponse.ErrorException);
-            //}
-
-            //if (!lastReleaseResponse.IsSuccessful)
-            //{
-            //    throw new Exception($"Azure DevOps API Response: {lastReleaseResponse.StatusDescription} ({lastReleaseResponse.StatusCode}).\n{lastReleaseResponse.Content}");
-            //}
         }
 
         internal async Task<CollectionResponse<Release>> GetReleasesAsync(string project, int definitionId, int top, CancellationToken cancellationToken)

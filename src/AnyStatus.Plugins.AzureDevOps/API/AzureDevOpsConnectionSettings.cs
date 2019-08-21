@@ -1,9 +1,9 @@
-﻿using AnyStatus.API;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using AnyStatus.API;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
-namespace AnyStatus.Plugins.AzureDevOps
+namespace AnyStatus.Plugins.AzureDevOps.API
 {
     [ExpandableObject]
     [Category("Azure DevOps")]

@@ -1,6 +1,7 @@
 ﻿using AnyStatus.API;
 using System;
 using System.Collections.Generic;
+using AnyStatus.Plugins.AzureDevOps.Common;
 
 namespace AnyStatus.Plugins.AzureDevOps.Builds
 {

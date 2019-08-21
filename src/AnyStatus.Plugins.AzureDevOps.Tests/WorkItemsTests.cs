@@ -3,6 +3,7 @@ using AnyStatus.Plugins.AzureDevOps.WorkItems;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
 using System.Threading.Tasks;
+using AnyStatus.Plugins.AzureDevOps.API;
 
 namespace AnyStatus.Plugins.AzureDevOps.Tests
 {

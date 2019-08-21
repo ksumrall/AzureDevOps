@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
+using AnyStatus.Plugins.AzureDevOps.API;
 
 namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 {

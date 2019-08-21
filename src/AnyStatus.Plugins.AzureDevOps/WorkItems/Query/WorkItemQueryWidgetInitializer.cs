@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using AnyStatus.Plugins.AzureDevOps.Common;
 
 namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 {
