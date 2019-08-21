@@ -1,7 +1,5 @@
 ﻿using AnyStatus.API;
-using RestSharp;
-using RestSharp.Authenticators;
-using System;
+using AnyStatus.Plugins.AzureDevOps.API;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,26 +16,16 @@ namespace AnyStatus.Plugins.AzureDevOps.Builds
 
         public async Task Handle(StopRequest<BuildWidget> request, CancellationToken cancellationToken)
         {
-            if (_dialogService.ShowDialog(new ConfirmationDialog($"Are you sure you want to stop {request.DataContext.Name}?")) != DialogResult.Yes)
+            var dialog = new ConfirmationDialog($"Are you sure you want to stop {request.DataContext.Name}?");
+
+            if (_dialogService.ShowDialog(dialog) != DialogResult.Yes)
             {
                 return;
             }
 
-            var restClient = new RestClient(request.DataContext.ConnectionSettings.URL)
-            {
-                Authenticator = new HttpBasicAuthenticator("", request.DataContext.ConnectionSettings.PersonalAccessToken)
-            };
+            var api = new AzureDevOpsApi(request.DataContext.ConnectionSettings);
 
-            var stopRequest = new RestRequest($"{request.DataContext.ConnectionSettings.Organization}/{request.DataContext.Project}/_apis/build/builds/{request.DataContext.LastBuildId}?api-version=5.0", Method.PATCH);
-
-            stopRequest.AddJsonBody(new { status = "cancelling" });
-
-            var response = await restClient.ExecuteTaskAsync(stopRequest, cancellationToken).ConfigureAwait(false);
-
-            if (!response.IsSuccessful)
-            {
-                throw new Exception("An error occurred while stopping build.\n" + response.Content);
-            }
+            await api.CancelBuildAsync(request.DataContext.Project, request.DataContext.LastBuildId, cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace AnyStatus.Plugins.AzureDevOps.Builds
         {
             var api = new AzureDevOpsApi(request.DataContext.ConnectionSettings);
 
-            var response = await api.GetBuildDefinitionsAsync(request.DataContext.Project, request.DataContext.Definition, 1, cancellationToken);
+            var response = await api.GetBuildDefinitionsAsync(request.DataContext.Project, request.DataContext.Definition, 1, cancellationToken).ConfigureAwait(false);
 
             var buildDefinition = response.Value.FirstOrDefault();
 

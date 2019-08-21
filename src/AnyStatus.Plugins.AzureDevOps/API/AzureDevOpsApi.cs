@@ -27,7 +27,7 @@ namespace AnyStatus.Plugins.AzureDevOps.API
         private async Task<T> ExecuteAsync<T>(IRestRequest request, CancellationToken cancellationToken) where T : new()
         {
             var response = await _client.ExecuteTaskAsync<T>(request, cancellationToken).ConfigureAwait(false);
-            
+
             if (response.ErrorException == null)
                 return response.Data;
 
@@ -36,16 +36,18 @@ namespace AnyStatus.Plugins.AzureDevOps.API
             throw new Exception(message, response.ErrorException);
         }
 
-        internal async Task<CollectionResponse<Release>> GetReleasesAsync(string project, int definitionId, int top, CancellationToken cancellationToken)
+        private async Task ExecuteAsync(IRestRequest request, CancellationToken cancellationToken)
         {
-            var request = new RestRequest($"{project}/_apis/release/releases?api-version=5.0");
+            var response = await _client.ExecuteTaskAsync(request, cancellationToken).ConfigureAwait(false);
 
-            request.AddParameter("definitionId", definitionId);
-            request.AddParameter("$expand", "environments");
-            request.AddParameter("$top", top);
+            if (response.IsSuccessful)
+                return;
 
-            return await ExecuteAsync<CollectionResponse<Release>>(request, cancellationToken).ConfigureAwait(false);
+            const string message = "An error occurred while sending request to Azure DevOps.";
+
+            throw new Exception(message, response.ErrorException);
         }
+        //Builds
 
         internal async Task<CollectionResponse<Build>> GetBuildsAsync(string project, int definitionId, int top, CancellationToken cancellationToken)
         {
@@ -65,6 +67,43 @@ namespace AnyStatus.Plugins.AzureDevOps.API
             request.AddParameter("name", name);
 
             return await ExecuteAsync<CollectionResponse<BuildDefinition>>(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        internal async Task QueueBuildAsync(string project, int definitionId, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{project}/_apis/build/builds?api-version=5.0", Method.POST);
+
+            request.AddJsonBody(new
+            {
+                Definition = new
+                {
+                    Id = definitionId
+                }
+            });
+
+            await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        internal async Task CancelBuildAsync(string project, int buildId, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{project}/_apis/build/builds/{buildId}?api-version=5.0", Method.PATCH);
+
+            request.AddJsonBody(new { status = "cancelling" });
+
+            await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        //Releases
+
+        internal async Task<CollectionResponse<Release>> GetReleasesAsync(string project, int definitionId, int top, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{project}/_apis/release/releases?api-version=5.0");
+
+            request.AddParameter("definitionId", definitionId);
+            request.AddParameter("$expand", "environments");
+            request.AddParameter("$top", top);
+
+            return await ExecuteAsync<CollectionResponse<Release>>(request, cancellationToken).ConfigureAwait(false);
         }
 
         internal async Task<CollectionResponse<Deployment>> GetDeploymentsAsync(string project, int definitionId, int top, CancellationToken cancellationToken)
