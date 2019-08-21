@@ -27,7 +27,7 @@ namespace AnyStatus.Plugins.AzureDevOps.Builds
 
             if (buildDefinitionsResponse.ErrorException != null)
             {
-                throw new Exception("An error occurred while getting build defintion from Azure DevOps.", buildDefinitionsResponse.ErrorException);
+                throw new Exception("An error occurred while getting build definition from Azure DevOps.", buildDefinitionsResponse.ErrorException);
             }
 
             var buildDefinition = buildDefinitionsResponse.Data.Value?.FirstOrDefault();
