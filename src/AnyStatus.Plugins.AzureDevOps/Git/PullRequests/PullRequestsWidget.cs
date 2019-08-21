@@ -6,6 +6,7 @@ using AnyStatus.Plugins.AzureDevOps.API;
 
 namespace AnyStatus.Plugins.AzureDevOps.Git.PullRequests
 {
+    [Browsable(false)]
     [DisplayColumn("Azure DevOps")]
     [DisplayName("Pull Requests")]
     [XmlType(TypeName = "AzureDevOpsPullRequests_v1")]
