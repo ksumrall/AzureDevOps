@@ -82,7 +82,7 @@
     <Compile Include="Releases\StartRelease.cs" />
     <Compile Include="Releases\StopReleaseEnvironment.cs" />
     <Compile Include="Releases\StartReleaseEnvironment.cs" />
-    <Compile Include="WorkItems\Query\WorkItemQueryReference.cs" />
+    <Compile Include="API\Contracts\WorkItemQueryReference.cs" />
     <Compile Include="WorkItems\Query\WorkItemQueryWidgetInitializer.cs" />
     <Compile Include="WorkItems\Query\WorkItemQueryHandler.cs" />
     <Compile Include="WorkItems\Query\WorkItemQueryWidget.cs" />

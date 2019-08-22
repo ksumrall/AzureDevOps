@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
+namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
     public class WorkItemQueryReference
     {

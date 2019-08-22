@@ -1,11 +1,11 @@
 ﻿using AnyStatus.API;
+using AnyStatus.Plugins.AzureDevOps.API.Contracts;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AnyStatus.Plugins.AzureDevOps.API.Contracts;
 
 namespace AnyStatus.Plugins.AzureDevOps.Releases
 {
