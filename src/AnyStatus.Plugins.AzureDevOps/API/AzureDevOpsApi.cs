@@ -143,5 +143,14 @@ namespace AnyStatus.Plugins.AzureDevOps.API
 
             await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
         }
+
+        internal async Task CancelDeploymentAsync(string project, int releaseId, int deploymentId, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{project}/_apis/release/releases/{releaseId}/environments/{deploymentId}?api-version=5-preview.0", Method.PATCH);
+
+            request.AddJsonBody(new { status = "canceled" });
+
+            await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
     }
 }

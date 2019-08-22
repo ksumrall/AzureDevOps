@@ -1,4 +1,5 @@
-﻿using AnyStatus.API;
+﻿using System;
+using AnyStatus.API;
 using AnyStatus.Plugins.AzureDevOps.API;
 using System.Linq;
 using System.Threading;
@@ -30,14 +31,16 @@ namespace AnyStatus.Plugins.AzureDevOps.Releases
 
                 var response = await api.GetReleasesAsync(parent.Project, parent.DefinitionId, 1, cancellationToken).ConfigureAwait(false);
 
-                var release = response.Value.FirstOrDefault();
-
-                if (release != null)
+                if (response.Count == 0)
                 {
-                    await api.DeployAsync(parent.Project, release.Id, request.DataContext.DeploymentId, cancellationToken).ConfigureAwait(false);
-
-                    request.DataContext.State = State.Queued;
+                    throw new Exception("Release not found.");
                 }
+
+                var release = response.Value.First();
+
+                await api.DeployAsync(parent.Project, release.Id, request.DataContext.DeploymentId, cancellationToken).ConfigureAwait(false);
+
+                request.DataContext.State = State.Queued;
             }
         }
     }
