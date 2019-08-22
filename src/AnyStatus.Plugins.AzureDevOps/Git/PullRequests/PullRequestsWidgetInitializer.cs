@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using AnyStatus.API;
+using System.Threading;
 using System.Threading.Tasks;
-using AnyStatus.API;
 
 namespace AnyStatus.Plugins.AzureDevOps.Git.PullRequests
 {
