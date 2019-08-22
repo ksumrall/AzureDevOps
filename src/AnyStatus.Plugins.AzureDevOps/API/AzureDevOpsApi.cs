@@ -43,7 +43,7 @@ namespace AnyStatus.Plugins.AzureDevOps.API
 
             throw new Exception("An error occurred while sending request to Azure DevOps.", response.ErrorException);
         }
-        
+
         //Builds
 
         internal async Task<CollectionResponse<Build>> GetBuildsAsync(string project, int definitionId, int top, CancellationToken cancellationToken)
@@ -130,10 +130,16 @@ namespace AnyStatus.Plugins.AzureDevOps.API
         {
             var request = new RestRequest($"{project}/_apis/release/releases?api-version=5.0", Method.POST);
 
-            request.AddJsonBody(new
-            {
-                definitionId
-            });
+            request.AddJsonBody(new { definitionId });
+
+            await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        internal async Task DeployAsync(string project, int releaseId, int deploymentId, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{project}/_apis/release/releases/{releaseId}/environments/{deploymentId}?api-version=5-preview.0", Method.PATCH);
+
+            request.AddJsonBody(new { status = "inProgress" });
 
             await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
         }
