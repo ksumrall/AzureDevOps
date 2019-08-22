@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\AzureDevOpsApi.cs" />
+    <Compile Include="API\Contracts\GitPullRequest.cs" />
+    <Compile Include="API\Contracts\GitRepository.cs" />
     <Compile Include="API\Contracts\IdentityRef.cs" />
     <Compile Include="API\Contracts\Build.cs" />
     <Compile Include="API\Contracts\BuildDefinition.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="Git\PullRequests\PullRequestsWebPage.cs" />
     <Compile Include="Git\PullRequests\PullRequestsWidget.cs" />
     <Compile Include="Git\PullRequests\PullRequestsWidgetInitializer.cs" />
+    <Compile Include="Git\PullRequests\PullRequestWidget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="API\Contracts\Approval.cs" />
     <Compile Include="API\Contracts\Deployment.cs" />
