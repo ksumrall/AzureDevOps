@@ -1,6 +1,4 @@
-﻿using AnyStatus.Plugins.AzureDevOps.Builds;
-using AnyStatus.Plugins.AzureDevOps.Common;
-using AnyStatus.Plugins.AzureDevOps.Releases;
+﻿using AnyStatus.Plugins.AzureDevOps.API.Contracts;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;

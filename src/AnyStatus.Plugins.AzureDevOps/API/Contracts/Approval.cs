@@ -1,4 +1,4 @@
-﻿namespace AnyStatus.Plugins.AzureDevOps.Releases
+﻿namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
     internal class Approval
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using AnyStatus.Plugins.AzureDevOps.Common;
+using AnyStatus.Plugins.AzureDevOps.API.Contracts;
 
 namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 {
@@ -28,7 +28,7 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 
             var queryResponse = await restClient.ExecuteTaskAsync<CollectionResponse<WorkItemQueryReference>>(queryRequest, cancellationToken).ConfigureAwait(false);
 
-            if (queryResponse.StatusCode != HttpStatusCode.OK || queryResponse.Data == null || queryResponse.Data.Value == null || !queryResponse.Data.Value.Any())
+            if (queryResponse.StatusCode != HttpStatusCode.OK || queryResponse.Data?.Value == null || !queryResponse.Data.Value.Any())
                 throw new Exception("An error occurred while initializing widget.");
 
             var query = queryResponse.Data.Value.First();

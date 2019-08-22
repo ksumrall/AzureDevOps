@@ -1,4 +1,4 @@
-﻿namespace AnyStatus.Plugins.AzureDevOps.Common
+﻿namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
     public class IdentityRef
     {

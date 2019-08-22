@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace AnyStatus.Plugins.AzureDevOps.Builds
+namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
-    internal class BuildDefinition
+    internal class ReleaseDefinition
     {
         public int Id { get; set; }
 

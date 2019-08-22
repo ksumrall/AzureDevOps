@@ -1,7 +1,7 @@
-﻿using AnyStatus.API;
-using System;
+﻿using System;
+using AnyStatus.API;
 
-namespace AnyStatus.Plugins.AzureDevOps.Releases
+namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
     internal class Deployment : JobRun
     {

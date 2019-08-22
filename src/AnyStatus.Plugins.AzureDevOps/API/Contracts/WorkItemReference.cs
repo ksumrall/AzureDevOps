@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AnyStatus.Plugins.AzureDevOps.WorkItems
+namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
     public class WorkItemReference
     {

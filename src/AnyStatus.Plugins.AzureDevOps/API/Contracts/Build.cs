@@ -1,9 +1,8 @@
-﻿using AnyStatus.API;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using AnyStatus.Plugins.AzureDevOps.Common;
+using AnyStatus.API;
 
-namespace AnyStatus.Plugins.AzureDevOps.Builds
+namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
     internal class Build : JobRun
     {

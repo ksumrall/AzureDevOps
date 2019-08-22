@@ -1,8 +1,8 @@
-﻿using AnyStatus.API;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using AnyStatus.API;
 
-namespace AnyStatus.Plugins.AzureDevOps.Releases
+namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
     internal class Environment
     {
