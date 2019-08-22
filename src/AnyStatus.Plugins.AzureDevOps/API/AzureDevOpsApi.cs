@@ -3,7 +3,6 @@ using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -162,6 +161,13 @@ namespace AnyStatus.Plugins.AzureDevOps.API
             var request = new RestRequest("_apis/wit/wiql?api-version=5.0", Method.POST);
 
             request.AddJsonBody(new { query });
+
+            return await ExecuteAsync<WorkItemQueryResult>(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        internal async Task<WorkItemQueryResult> QueryWorkItemsByIdAsync(string id, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"_apis/wit/wiql/{id}?api-version=5.0");
 
             return await ExecuteAsync<WorkItemQueryResult>(request, cancellationToken).ConfigureAwait(false);
         }

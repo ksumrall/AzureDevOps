@@ -8,32 +8,26 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AnyStatus.Plugins.AzureDevOps.WorkItems
+namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 {
-    public class WorkItemsQuery : IMetricQuery<WorkItemsWidget>
+    public class WorkItemQueryById : IMetricQuery<WorkItemQueryWidget>
     {
         private readonly IUiAction _uiAction;
 
-        public WorkItemsQuery(IUiAction uiAction)
+        public WorkItemQueryById(IUiAction uiAction)
         {
             _uiAction = uiAction;
         }
 
-        public async Task Handle(MetricQueryRequest<WorkItemsWidget> request, CancellationToken cancellationToken)
+        public async Task Handle(MetricQueryRequest<WorkItemQueryWidget> request, CancellationToken cancellationToken)
         {
-            const string workItemsQuery = "SELECT [System.Id] FROM WorkItems " +
-                                          "WHERE [System.AssignedTo] = {0} " +
-                                          "AND [State] NOT IN ('Done','Closed','Inactive','Completed')";
-
-            var query = string.Format(workItemsQuery, request.DataContext.AssignedTo);
-
             var api = new AzureDevOpsApi(request.DataContext.ConnectionSettings);
 
-            var workItemQueryResult = await api.QueryWorkItemsAsync(query, cancellationToken).ConfigureAwait(false);
+            var workItemQueryResult = await api.QueryWorkItemsByIdAsync(request.DataContext.QueryId, cancellationToken).ConfigureAwait(false);
 
             var ids = workItemQueryResult.WorkItems.Select(w => w.Id).ToList();
 
-            if (ids.Count != 0)
+            if (ids.Any())
             {
                 var workItems = await api.GetWorkItemsAsync(ids, cancellationToken).ConfigureAwait(false);
 

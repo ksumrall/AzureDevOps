@@ -26,7 +26,7 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 
             var queryRequest = new RestRequest(url);
 
-            var queryResponse = await restClient.ExecuteTaskAsync<CollectionResponse<WorkItemQueryReference>>(queryRequest, cancellationToken).ConfigureAwait(false);
+            var queryResponse = await restClient.ExecuteTaskAsync<CollectionResponse<WorkItemQuery>>(queryRequest, cancellationToken).ConfigureAwait(false);
 
             if (queryResponse.StatusCode != HttpStatusCode.OK || queryResponse.Data?.Value == null || !queryResponse.Data.Value.Any())
                 throw new Exception("An error occurred while initializing widget.");
@@ -35,7 +35,6 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 
             request.DataContext.QueryId = query.Id;
             request.DataContext.URL = query.Links["html"]["href"];
-            request.DataContext.WIQL = query.Links["wiql"]["href"];
         }
     }
 }

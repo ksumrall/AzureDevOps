@@ -2,7 +2,7 @@
 
 namespace AnyStatus.Plugins.AzureDevOps.API.Contracts
 {
-    public class WorkItemQueryReference
+    public class WorkItemQuery
     {
         public string Id { get; set; }
 

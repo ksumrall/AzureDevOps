@@ -26,10 +26,6 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 
         [XmlIgnore]
         [Browsable(false)]
-        public string WIQL { get; set; }
-
-        [XmlIgnore]
-        [Browsable(false)]
         public string URL { get; set; }
 
         [XmlIgnore]
@@ -46,7 +42,5 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
         [DisplayName("Query")]
         [Description("Required. The name of the work items query.")]
         public string Query { get; set; }
-
-
     }
 }
