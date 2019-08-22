@@ -2,6 +2,8 @@
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -151,6 +153,31 @@ namespace AnyStatus.Plugins.AzureDevOps.API
             request.AddJsonBody(new { status = "canceled" });
 
             await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        //Work Items
+
+        internal async Task<WorkItemQueryResult> QueryWorkItemsAsync(string query, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest("_apis/wit/wiql?api-version=5.0", Method.POST);
+
+            request.AddJsonBody(new { query });
+
+            return await ExecuteAsync<WorkItemQueryResult>(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        internal async Task<CollectionResponse<WorkItem>> GetWorkItemsAsync(List<string> ids, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest("_apis/wit/workitemsbatch?api-version=5.0", Method.POST);
+
+            request.AddJsonBody(new Dictionary<string, object>
+            {
+                ["ids"] = ids,
+                ["$expand"] = "Links",
+                ["fields"] = new[] { "System.Id", "System.Title", "System.WorkItemType", "System.TeamProject" }
+            });
+
+            return await ExecuteAsync<CollectionResponse<WorkItem>>(request, cancellationToken).ConfigureAwait(false);
         }
     }
 }

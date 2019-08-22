@@ -30,7 +30,7 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 
             var workItemReferencesRequest = new RestRequest(request.DataContext.WIQL);
 
-            var workItemReferencesResponse = await restClient.ExecuteTaskAsync<WorkItemReferences>(workItemReferencesRequest, cancellationToken).ConfigureAwait(false);
+            var workItemReferencesResponse = await restClient.ExecuteTaskAsync<WorkItemQueryResult>(workItemReferencesRequest, cancellationToken).ConfigureAwait(false);
 
             if (workItemReferencesResponse.ErrorException != null)
             {

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AnyStatus.Plugins.AzureDevOps.API;
 using AnyStatus.Plugins.AzureDevOps.API.Contracts;
 
 namespace AnyStatus.Plugins.AzureDevOps.WorkItems
@@ -29,28 +30,13 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems
                                           "WHERE [System.AssignedTo] = {0} " +
                                           "AND [State] NOT IN ('Done','Closed','Inactive','Completed')";
 
-            var restClient = new RestClient(request.DataContext.ConnectionSettings.URL)
-            {
-                Authenticator = new HttpBasicAuthenticator(string.Empty, request.DataContext.ConnectionSettings.PersonalAccessToken)
-            };
+            var query = string.Format(workItemsQuery, request.DataContext.AssignedTo);
 
-            var workItemReferencesRequest = new RestRequest($"{request.DataContext.ConnectionSettings.Organization}/_apis/wit/wiql?api-version=5.0", Method.POST);
+            var api = new AzureDevOpsApi(request.DataContext.ConnectionSettings);
 
-            workItemReferencesRequest.AddJsonBody(new { query = string.Format(workItemsQuery, request.DataContext.AssignedTo) });
+            var workItemQueryResult = await api.QueryWorkItemsAsync(query, cancellationToken).ConfigureAwait(false);
 
-            var workItemReferencesResponse = await restClient.ExecuteTaskAsync<WorkItemReferences>(workItemReferencesRequest, cancellationToken).ConfigureAwait(false);
-
-            if (workItemReferencesResponse.ErrorException != null)
-            {
-                throw workItemReferencesResponse.ErrorException;
-            }
-
-            if (!workItemReferencesResponse.IsSuccessful)
-            {
-                throw new Exception(message: $"Azure DevOps API Response: {workItemReferencesResponse.StatusDescription} ({workItemReferencesResponse.StatusCode}).\n{workItemReferencesResponse.Content}");
-            }
-
-            var ids = workItemReferencesResponse.Data.WorkItems.Select(w => w.Id).ToList();
+            var ids = workItemQueryResult.WorkItems.Select(w => w.Id).ToList();
 
             if (ids.Count == 0)
             {
@@ -66,23 +52,9 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems
                 return;
             }
 
-            var workItemsRequest = new RestRequest($"{request.DataContext.ConnectionSettings.Organization}/_apis/wit/workitemsbatch?api-version=5.0", Method.POST);
+            var workItems = await api.GetWorkItemsAsync(ids, cancellationToken).ConfigureAwait(false);
 
-            workItemsRequest.AddJsonBody(new Dictionary<string, object>
-            {
-                ["$expand"] = "Links",
-                ["fields"] = new[] { "System.Id", "System.Title", "System.WorkItemType", "System.TeamProject" },
-                ["ids"] = ids,
-            });
-
-            var workItemsResponse = await restClient.ExecuteTaskAsync<CollectionResponse<WorkItem>>(workItemsRequest, cancellationToken).ConfigureAwait(false);
-
-            if (workItemsResponse.ErrorException != null)
-            {
-                throw workItemsResponse.ErrorException;
-            }
-
-            _uiAction.Invoke(() => UpdateWidget(request.DataContext, workItemReferencesResponse.Data.WorkItems, workItemsResponse.Data));
+            _uiAction.Invoke(() => UpdateWidget(request.DataContext, workItemQueryResult.WorkItems, workItems));
         }
 
         private static void UpdateWidget(Metric metric, IEnumerable<WorkItemReference> references, CollectionResponse<WorkItem> workItemsResponse)

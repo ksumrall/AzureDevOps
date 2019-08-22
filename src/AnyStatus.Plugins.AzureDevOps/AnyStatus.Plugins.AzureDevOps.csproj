@@ -54,6 +54,7 @@
     <Compile Include="API\Contracts\IdentityRef.cs" />
     <Compile Include="API\Contracts\Build.cs" />
     <Compile Include="API\Contracts\BuildDefinition.cs" />
+    <Compile Include="API\Contracts\WorkItemQueryResult.cs" />
     <Compile Include="Builds\BuildHealthCheck.cs" />
     <Compile Include="Builds\BuildWidget.cs" />
     <Compile Include="Builds\InitializeBuild.cs" />
