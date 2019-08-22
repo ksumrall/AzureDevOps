@@ -21,6 +21,11 @@ namespace AnyStatus.Plugins.AzureDevOps.WorkItems.Query
 
         public async Task Handle(MetricQueryRequest<WorkItemQueryWidget> request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(request.DataContext.QueryId))
+            {
+                return;
+            }
+
             var api = new AzureDevOpsApi(request.DataContext.ConnectionSettings);
 
             var workItemQueryResult = await api.QueryWorkItemsByIdAsync(request.DataContext.QueryId, cancellationToken).ConfigureAwait(false);

@@ -185,5 +185,12 @@ namespace AnyStatus.Plugins.AzureDevOps.API
 
             return await ExecuteAsync<CollectionResponse<WorkItem>>(request, cancellationToken).ConfigureAwait(false);
         }
+
+        internal async Task<CollectionResponse<WorkItemQuery>> GetWorkItemQueriesAsync(string project, string filter, int top, CancellationToken cancellationToken)
+        {
+            var request = new RestRequest($"{Uri.EscapeDataString(project)}/_apis/wit/queries?$filter={Uri.EscapeDataString(filter)}&$top={top}&api-version=5.1");
+
+            return await ExecuteAsync<CollectionResponse<WorkItemQuery>>(request, cancellationToken).ConfigureAwait(false);
+        }
     }
 }
