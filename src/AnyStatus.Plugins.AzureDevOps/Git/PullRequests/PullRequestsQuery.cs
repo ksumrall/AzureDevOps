@@ -27,7 +27,12 @@ namespace AnyStatus.Plugins.AzureDevOps.Git.PullRequests
 
             var api = new AzureDevOpsApi(request.DataContext.ConnectionSettings);
 
-            var pullRequests = await api.GetPullRequestsAsync(request.DataContext.Project, request.DataContext.RepositoryId, cancellationToken).ConfigureAwait(false);
+            var pullRequests = await api.GetPullRequestsAsync(
+                request.DataContext.Project,
+                request.DataContext.RepositoryId,
+                request.DataContext.SourceBranch,
+                request.DataContext.TargetBranch,
+                    cancellationToken).ConfigureAwait(false);
 
             request.DataContext.Value = pullRequests.Count;
 

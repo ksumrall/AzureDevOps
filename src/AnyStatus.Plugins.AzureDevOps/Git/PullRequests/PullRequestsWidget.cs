@@ -25,10 +25,6 @@ namespace AnyStatus.Plugins.AzureDevOps.Git.PullRequests
         [Browsable(false)]
         public bool IsInitialized { get; set; }
 
-        //[XmlIgnore]
-        //[Browsable(false)]
-        //public string URL { get; set; }
-
         [XmlIgnore]
         [Browsable(false)]
         public string RepositoryId { get; set; }
@@ -42,5 +38,15 @@ namespace AnyStatus.Plugins.AzureDevOps.Git.PullRequests
         [Category("Azure DevOps")]
         [Description("Required. The Azure DevOps project name.")]
         public string Project { get; set; }
+
+        [Category("Azure DevOps")]
+        [DisplayName("Target Branch")]
+        [Description("Optional. Search for pull requests into this branch. Example: refs/heads/master")]
+        public string TargetBranch { get; set; }
+
+        [Category("Azure DevOps")]
+        [DisplayName("Source Branch")]
+        [Description("Optional. Search for pull requests from this branch. Example: refs/heads/master")]
+        public string SourceBranch { get; set; }
     }
 }

@@ -202,9 +202,19 @@ namespace AnyStatus.Plugins.AzureDevOps.API
 
         //Pull Requests
 
-        internal async Task<CollectionResponse<GitPullRequest>> GetPullRequestsAsync(string project, string repositoryId, CancellationToken cancellationToken)
+        internal async Task<CollectionResponse<GitPullRequest>> GetPullRequestsAsync(string project, string repositoryId, string sourceRefName, string targetRefName, CancellationToken cancellationToken)
         {
             var request = new RestRequest($"{Uri.EscapeDataString(project)}/_apis/git/repositories/{repositoryId}/pullrequests?api-version=5.1");
+
+            if (string.IsNullOrEmpty(sourceRefName) == false)
+            {
+                request.AddQueryParameter("searchCriteria.sourceRefName", sourceRefName);
+            }
+
+            if (!string.IsNullOrEmpty(targetRefName) == false)
+            {
+                request.AddQueryParameter("searchCriteria.targetRefName", targetRefName);
+            }
 
             return await ExecuteAsync<CollectionResponse<GitPullRequest>>(request, cancellationToken).ConfigureAwait(false);
         }
