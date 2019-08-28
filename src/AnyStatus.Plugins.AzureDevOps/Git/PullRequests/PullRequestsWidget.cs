@@ -6,8 +6,8 @@ using System.Xml.Serialization;
 
 namespace AnyStatus.Plugins.AzureDevOps.Git.PullRequests
 {
-    [DisplayColumn("Azure DevOps")]
     [DisplayName("Pull Requests")]
+    [DisplayColumn("Azure DevOps")]
     [XmlType(TypeName = "AzureDevOpsPullRequests_v1")]
     [Description("Retrieve all pull requests matching a specified criteria.")]
     public class PullRequestsWidget : Metric, ISchedulable, IInitializable//, IWebPage
